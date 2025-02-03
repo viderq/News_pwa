@@ -202,6 +202,50 @@
             const walk = (x - startX) * 2;
             navScroll.scrollLeft = scrollLeft - walk;
         });
+
+         // ========== Service Worker Registration ==========
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker успешно зарегистрирован с областью видимости:', registration.scope);
+
+                        // Проверка обновлений каждые 10 минут
+                        setInterval(() => {
+                            registration.update().catch(err =>
+                                console.log('Ошибка при проверке обновлений:', err)
+                            );
+                        }, 600000);
+
+                    })
+                    .catch(error => {
+                        console.error('Ошибка регистрации ServiceWorker:', error);
+                    });
+            });
+        }
+
+        // ========== Обработчик установки PWA ==========
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Показать кнопку установки через 5 секунд
+            setTimeout(() => {
+                if(deferredPrompt) {
+                    const installButton = confirm('Хотите установить это приложение?');
+                    if(installButton) {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then(choiceResult => {
+                            if (choiceResult.outcome === 'accepted') {
+                                console.log('Пользователь принял установку');
+                            }
+                            deferredPrompt = null;
+                        });
+                    }
+                }
+            }, 5000);
+        });
     </script>
 </body>
 </html>
