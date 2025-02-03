@@ -1,7 +1,7 @@
 {
     "name": "The Bulletin",
     "short_name": "Bulletin",
-    "start_url": "/index.html",
+    "start_url": "/News_pwa/index.html",
     "display": "standalone",
     "background_color": "#fafafa",
     "theme_color": "#1a1a1a"
