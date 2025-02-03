@@ -1,11 +1,8 @@
 {
     "name": "The Bulletin",
     "short_name": "Bulletin",
-    "start_url": "/index.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#fafafa",
-    "theme_color": "#1a1a1a",
-    "orientation": "portrait",
-    "icons": [
-    ]
+    "theme_color": "#1a1a1a"
 }
