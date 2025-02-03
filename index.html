@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Minimal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        /* Хедер */
+        .header {
+            padding: 2rem 1.5rem 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Навигация */
+        .nav-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.5rem;
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            font-size: 0.95rem;
+            color: #666;
+            padding: 0.4rem 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-item.active {
+            color: #1a1a1a;
+            border-color: currentColor;
+        }
+
+        /* Лента новостей */
+        .main-content {
+            padding: 2rem 1.5rem;
+        }
+
+        .article-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .article-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #888;
+            margin-bottom: 0.8rem;
+        }
+
+        .article-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .article-excerpt {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Адаптивность */
+        @media (min-width: 768px) {
+            .header {
+                padding: 3rem 2.5rem 1.5rem;
+            }
+            
+            .main-content {
+                padding: 2.5rem;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title">The Bulletin</h1>
+        <nav class="nav-scroll">
+            <ul class="nav-list">
+                <li class="nav-item active">Все новости</li>
+                <li class="nav-item">Политика</li>
+                <li class="nav-item">Экономика</li>
+                <li class="nav-item">Технологии</li>
+                <li class="nav-item">Культура</li>
+                <li class="nav-item">Спорт</li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <article class="article-card">
+            <div class="article-category">Политика • 2 ч назад</div>
+            <h2 class="article-title">Реформа законодательства в сфере цифровых технологий</h2>
+            <p class="article-excerpt">Правительство анонсировало новые инициативы по регулированию криптовалютного рынка и искусственного интеллекта...</p>
+            <div class="article-meta">
+                <span>Алексей Петров</span>
+                <span>•</span>
+                <span>5 мин чтения</span>
+            </div>
+        </article>
+
+        <article class="article-card">
+            <div class="article-category">Технологии • 5 ч назад</div>
+            <h2 class="article-title">Прорыв в квантовых вычислениях: новый рекорд стабильности</h2>
+            <p class="article-excerpt">Международная исследовательская группа представила квантовый процессор с рекордным временем когерентности...</p>
+            <div class="article-meta">
+                <span>Мария Семенова</span>
+                <span>•</span>
+                <span>4 мин чтения</span>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        // Переключение категорий
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelector('.nav-item.active').classList.remove('active');
+                item.classList.add('active');
+            });
+        });
+
+        // Плавный скролл для навигации
+        const navScroll = document.querySelector('.nav-scroll');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        navScroll.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - navScroll.offsetLeft;
+            scrollLeft = navScroll.scrollLeft;
+        });
+
+        navScroll.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        navScroll.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        navScroll.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - navScroll.offsetLeft;
+            const walk = (x - startX) * 2;
+            navScroll.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+</html>
